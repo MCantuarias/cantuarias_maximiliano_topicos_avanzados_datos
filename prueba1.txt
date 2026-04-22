@@ -1,0 +1,21 @@
+1.Relación Muchos a Muchos (10 pts): Explica qué es una relación muchos a muchos y cómo se implementa en una base de datos relacional. Usa un ejemplo basado en las tablas del esquema creado para la prueba.
+
+ R: Una relación mucho a muchos se refiere a 2 tablas que se relacionan con 1 o mas valores, estas relaciones se pueden repetir muchas veces para ambas partes, por ejemplo en la prueba, muchos incidentes pueden requerir muchos agentes, no es que un incidente sea exclusivo de un agente
+
+2. Vistas (10 pts): Describe qué es una vista y cómo la usarías para mostrar el total de horas dedicadas por incidente, incluyendo la descripción del incidente y su severidad. Escribe la consulta SQL para crear la vista (no es necesario ejecutarla).
+
+ R: Una vista es un shortcut a una consulta generalmente complicada, es para simplificar la llamada y sea mas accesible a alguien que no posee un conocimiento extenso de sql, alfin y al cabo es una consulta simplificada o almacenada a un nombre
+
+SELECT i.IncidenteId, a.Horas, i.Descripcion, i.Severidad FROM Incidentes i JOIN Asignaciones a on RIGHT i.IncidenteId = a.IncidenteId
+
+3.Excepciones Predefinidas (10 pts): ¿Qué es una excepción predefinida en PL/SQL y cómo se maneja? Da un ejemplo de cómo manejarías la excepción NO_DATA_FOUND en un bloque PL/SQL.
+
+ R:Una excepción predefinida es un error genérico definido de fabrica en sql, que ayuda a identificar errores de código, en el caso de NO DATA FOUND es un error genérico que me indica que no quedan mas datos para iterar, cabe destacar que NO DATA FOUND es un error, no es en el caso de que el valor sea NULL.
+En un caso donde tengo que actualizar datos de la severidad de incidentes, se crearía un cursor donde itere por cada incidente hasta que la fila en la que me encuentre este vacia en este caso se levantaría el error NO DATA FOUND porque habría un error.
+
+4. Cursores Explícitos (10 pts): Explica qué es un cursor explícito y cómo se usa en PL/SQL. Menciona al menos dos atributos de cursor (como %NOTFOUND) y su propósito.
+
+R: Un cursor explicito apunta al valor que nosotros decidamos, en PL/SQL se crea CURSOR y se asigna una consulta, lo que va a hacer es posicionar en cada fila e iterar hacia adelante (en caso de FETCH), esto nos permite navegar eficientemente en los valores de la consulta dejándonos la posibilidad de actualizar o setear nuevos valores a ciertos incidentes, asignaciones o agentes
+Atributos: %NOTFOUND lo que hace es decirme si el cursor no encontró el valor que le dimos en WHERE, por ejemplo si quiero buscar un agente en especifico %NOTFOUND es en caso de que no se encuentre.
+%ROWTYPE, me permite buscar asignar los tipos de valores correctos en todo un objeto, para un caso donde se tenga que actualizar o buscar un agente especifico, me permitirá guardar el agente antiguo con todas sus características asi no tengo que volver a escribir todos sus datos a la hora de actualizar, en esencia es un paso mas a %TYPE que me permite sacar el tipo de valor de una variable
+	
