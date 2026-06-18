@@ -1,0 +1,17 @@
+-- - Nodo 1 (Principal / Primary): Santiago (Centro de Datos Principal - RM)
+-- - Nodo 2 (Secundario / Standby Local): Santiago (Zona de Disponibilidad Distinta / Colocación)
+-- - Nodo 3 (Secundario / Standby Desastres): Concepción (Región del Biobío)
+-- - Arquitectura Oracle Data Guard en configuración de Destinos Múltiples:
+--   * Hacia Nodo 2 (Santiago Standby): Replicación sincrona
+--     - Motivo: Garantiza cero pérdida de datos ante fallas de infraestructura local. Al estar en la misma región, el impacto por latencia de red es despreciable.
+--   * Hacia Nodo 3: Replicación asincrona
+--     - Motivo: Protege el rendimiento del Nodo Principal frente a la latencia interregional. Tolerancia aceptable a un retraso de transporte de apenas unos segundos.
+-- - Failover Local (Hacia Nodo 2 - Santiago):
+--   * Mecanismo: Automatizado mediante Fast-Start Failover con un Observer configurado en una tercera ubicación independiente.
+--   * Umbral de Activación: Pérdida de conectividad o fallo de latido por más de 30 segundos.
+--   * RPO Objetivo: 0.
+--   * RTO / MTTR Objetivo: < 1 minuto.
+-- - Gestión de Respaldos: 
+--   * Estrategia RMAN integrada: Respaldos incrementales diarios ejecutados en el Nodo 3, purgando archivelogs una vez validados en todo el pool de disponibilidad.
+-- - Monitoreo Crítico:
+--   * Alertas automatizadas en Oracle Enterprise Manager Cloud Control
