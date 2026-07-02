@@ -278,6 +278,12 @@ CREATE TABLE Fact_Asignaciones (
     FOREIGN KEY (IncidenteID) REFERENCES Dim_Incidente(IncidenteID)
 )
 /
+SELECT a.AgenteID, d.Nombre, SUM(a.Horas) AS TotalHoras, COUNT(DISTINCT a.IncidenteID) AS TotalIncidentes
+from Asignaciones a
+join Agentes d on a.AgenteID = d.AgenteID
+group by a.AgenteID, d.Nombre
+order by TotalHoras desc
+/
 
 /* EJERCICIO 3 (20 puntos)
 Crea un índice compuesto en Incidentes para las columnas Severidad y
