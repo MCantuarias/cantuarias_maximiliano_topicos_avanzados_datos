@@ -132,8 +132,12 @@ BEGIN
     END LOOP;
 END mostrar_carga_agentes;
 /
-
-
+SELECT a.AgenteID, d.Nombre, SUM(a.Horas) AS TotalHoras, COUNT(DISTINCT a.IncidenteID) AS TotalIncidentes
+from Asignaciones a
+join Agentes d on a.AgenteID = d.AgenteID
+group by a.AgenteID, d.Nombre
+order by TotalHoras desc
+/
 --EJERCICIO 3:
 --Implementa un sistema de auditoría manual usando un trigger. Para esto, primero crea una tabla llamada 
 --AuditoriaAsignaciones con las columnas necesarias. Luego, crea un trigger auditar_asignaciones que se 
